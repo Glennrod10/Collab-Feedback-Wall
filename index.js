@@ -14,6 +14,7 @@ app.use(express.json());
 // ✅ This must point to a valid router
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/boards", require("./routes/board"));
+app.use("/api/notes", require("./routes/note"));
 
 
 const PORT = process.env.PORT || 5000;
