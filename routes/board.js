@@ -22,4 +22,15 @@ router.post('/', protect, async (req ,res) => {
   }
 })
 
+router.get('/' , protect ,async (req , res) => {
+  try {
+    const boards = await Board.find({owner: req.user._id})
+    res.json(boards)
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Server error'});
+  }
+})
+
 module.exports = router;
