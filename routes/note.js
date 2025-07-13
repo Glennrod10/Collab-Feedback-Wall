@@ -35,4 +35,25 @@ router.get("/:boardId" , protect , async (req , res) => {
   }
 });
 
+router.delete('/:id' , protect , async (req,res) => {
+  const {id} = req.params;
+  try {
+    const note  = await Note.findById(id);
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+     if (note.author.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not allowed to delete this note" });
+    }
+
+    await note.deleteOne();
+    res.json({ message: "Note deleted successfully" });
+    
+  } catch (error) {
+    console.error("❌ Error deleting note:", error);
+    res.status(500).json({ message: "Server error" });  
+    
+  }
+});
 module.exports = router;
